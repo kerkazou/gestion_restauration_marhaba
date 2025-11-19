@@ -22,6 +22,6 @@
         4. Bind users
         5. Accept orders and assign them to available deliveryman
 
-## Deliveryman
+## Livreur
 
         1. Change the status of the order from on road to received or annulated
