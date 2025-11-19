@@ -1,0 +1,67 @@
+----------------------------------------
+ CREATE DATABASE
+----------------------------------------
+use Marhaba_Delivery
+
+
+----------------------------------------
+ CREATE COLLECTIONS
+----------------------------------------
+db.createCollection("roles")
+db.createCollection("users")
+db.createCollection("categories")
+db.createCollection("produits")
+db.createCollection("payements")
+db.createCollection("statuses")
+db.createCollection("commands")
+
+
+----------------------------------------
+ INSERT USERS
+ password: 111111
+----------------------------------------
+
+// manager
+db.users.insertOne({
+  username: "manager",
+  email: "manager@gmail.com",
+  password: "$2a$10$7NEUjRYTMSeMP4cXvSK/iOWGz7ywnSoTZtR6YDYT00F2JeWS50eru",
+  roles: [],
+  verification: true,
+  status: true
+})
+
+// client
+db.users.insertOne({
+  username: "client",
+  email: "client@gmail.com",
+  password: "$2a$10$7NEUjRYTMSeMP4cXvSK/iOWGz7ywnSoTZtR6YDYT00F2JeWS50eru",
+  roles: [ ObjectId("691dd7b887db01c27130293b") ],
+  verification: true,
+  status: true
+})
+
+// livreur
+db.users.insertOne({
+  username: "livreur",
+  email: "livreur@gmail.com",
+  password: "$2a$10$7NEUjRYTMSeMP4cXvSK/iOWGz7ywnSoTZtR6YDYT00F2JeWS50eru",
+  roles: [ ObjectId("691dd7b887db01c271302941") ],
+  verification: true,
+  status: true
+})
+
+
+----------------------------------------
+ INSERT CATEGORIES
+----------------------------------------
+db.categories.insertMany([
+  { name: "Fast Food", status: true },
+  { name: "Moroccan Food", status: true },
+  { name: "Pizza", status: true },
+  { name: "Sandwiches", status: true },
+  { name: "Grill", status: true },
+  { name: "Sushi", status: true },
+  { name: "Desserts", status: true },
+  { name: "Drinks", status: true }
+])
