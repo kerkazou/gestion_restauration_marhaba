@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: marhaba-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  server:
+    build:
+      context: ./server
+    container_name: marhaba-server
+    restart: unless-stopped
+    ports:
+      - "2000:2000"
+    environment:
+      PORT: 2000
+      DATABASE_URL: ${DATABASE_URL:-mongodb://mongo:27017/marhaba}
+      TOKEN_KEY: ${TOKEN_KEY:-change_me}
+      EMAIL: ${EMAIL:-}
+      PASSWORD: ${PASSWORD:-}
+      CLIENT_URL: ${CLIENT_URL:-http://localhost:3000}
+    depends_on:
+      - mongo
+    volumes:
+      - server-uploads:/app/public
+
+  client:
+    build:
+      context: ./client
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:2000}
+    container_name: marhaba-client
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+volumes:
+  mongo-data:
+  server-uploads:
