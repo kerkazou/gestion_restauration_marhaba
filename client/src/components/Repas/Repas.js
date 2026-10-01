@@ -6,9 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { ADD } from "../../redux/actions/action"
 
 export default function Repas() {
+  const productsPerPage = 8;
   const [data, setData] = useState([]);
   const [produit, setProduit] = useState([]);
   const [images, setImages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageCount = Math.ceil(produit.length / productsPerPage);
+  const visibleProducts = produit.slice(
+    (currentPage - 1) * productsPerPage,
+    currentPage * productsPerPage
+  );
 
   const handleClick = (product) => {
     data.push(product);
@@ -54,8 +61,8 @@ export default function Repas() {
         <h2 className="sr-only">Products</h2>
 
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {produit.map((p) => (
-            <div className="bg-white border rounded-lg hover:shadow-md">
+          {visibleProducts.map((p) => (
+            <div key={p._id} className="bg-white border rounded-lg hover:shadow-md">
               <div className="w-full overflow-hidden bg-gray-200 rounded-lg">
                 <img className="rounded-t-lg hover:opacity-75"
                   style={{ 'background-attachment': 'fixed', 'background-position': 'center', 'background-size': 'cover' }}
@@ -75,6 +82,37 @@ export default function Repas() {
             </div>
           ))}
         </div>
+        {pageCount > 1 && (
+          <nav className="flex justify-center items-center gap-2 mt-8" aria-label="Pagination des produits">
+            <button
+              type="button"
+              onClick={() => setCurrentPage((page) => page - 1)}
+              disabled={currentPage === 1}
+              className="px-3 py-2 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Précédent
+            </button>
+            {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
+              <button
+                key={page}
+                type="button"
+                onClick={() => setCurrentPage(page)}
+                aria-current={currentPage === page ? "page" : undefined}
+                className={`px-3 py-2 border rounded ${currentPage === page ? "bg-amber-500 text-white border-amber-500" : "bg-white"}`}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setCurrentPage((page) => page + 1)}
+              disabled={currentPage === pageCount}
+              className="px-3 py-2 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Suivant
+            </button>
+          </nav>
+        )}
       </div >
     </div >
   );
