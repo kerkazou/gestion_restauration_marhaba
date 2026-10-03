@@ -19,13 +19,13 @@ function Category() {
         getCategory()
     }, [])
     const getCategory = async () => {
-        const categorie = await axios.get('http://localhost:2000/manager/categorie')
+        const categorie = await axios.get('https://marhaba-restauration.duckdns.org/api/manager/categorie')
         setCategory(categorie.data.categorie)
     }
 
     const postData = async (e) => {
         e.preventDefault()
-        const add_categorie = await axios.post('http://localhost:2000/manager/add-categorie',{name})
+        const add_categorie = await axios.post('https://marhaba-restauration.duckdns.org/api/manager/add-categorie',{name})
         if (add_categorie.data.message) {
             Generator("success", add_categorie.data.message)
             setShowModal(false)
@@ -35,7 +35,7 @@ function Category() {
     }
     
     const onDelete = async (id) => {
-        const delete_categorie = await axios.delete(`http://localhost:2000/manager/deleteCategorie/${id}`)
+        const delete_categorie = await axios.delete(`https://marhaba-restauration.duckdns.org/api/manager/deleteCategorie/${id}`)
         if (delete_categorie.data.message) {
             Generator("success", delete_categorie.data.message)
             setShowModal(false)
@@ -47,7 +47,7 @@ function Category() {
     const updateCategorie = async (e) => {
         e.preventDefault()
         // console.log(updatName)
-        const update_categorie = await axios.put(`http://localhost:2000/manager/updateCategorie/${updatName._id}`, updatName)
+        const update_categorie = await axios.put(`https://marhaba-restauration.duckdns.org/api/manager/updateCategorie/${updatName._id}`, updatName)
         if (update_categorie.data.message) {
             Generator("success", update_categorie.data.message)
             setShowModal(false)

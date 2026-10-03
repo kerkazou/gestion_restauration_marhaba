@@ -33,7 +33,7 @@ services:
     build:
       context: ./client
       args:
-        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://localhost:2000}
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-https://marhaba-restauration.duckdns.org/api}
     container_name: marhaba-client
     restart: unless-stopped
     ports:
